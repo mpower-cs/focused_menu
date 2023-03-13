@@ -99,7 +99,7 @@ class FocusedMenuDetails extends StatelessWidget {
                       ),
                   child: ClipRRect(
                     borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                    child: ListView.builder(
+                    child: ListView.separated(
                       itemCount: menuItems.length,
                       padding: EdgeInsets.zero,
                       physics: BouncingScrollPhysics(),
@@ -114,7 +114,6 @@ class FocusedMenuDetails extends StatelessWidget {
                             },
                             child: Container(
                               alignment: Alignment.center,
-                              margin: const EdgeInsets.only(bottom: 1),
                               height: itemExtent ?? 50.0,
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
@@ -151,6 +150,12 @@ class FocusedMenuDetails extends StatelessWidget {
                         } else {
                           return listItem;
                         }
+                      },
+                      separatorBuilder: (BuildContext context, int index) {
+                        return Divider(
+                          height: 1.0,
+                          thickness: 1.0,
+                        );
                       },
                     ),
                   ),
