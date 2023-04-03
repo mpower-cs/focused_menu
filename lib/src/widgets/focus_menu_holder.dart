@@ -111,33 +111,34 @@ class _FocusedMenuHolderState extends State<FocusedMenuHolder> {
     _getOffset();
     widget.onOpened?.call();
 
-    await Navigator.push(
-      context,
-      PageRouteBuilder(
-        transitionDuration: widget.duration ?? Duration(milliseconds: 100),
-        pageBuilder: (context, animation, secondaryAnimation) {
-          animation = Tween(begin: 0.0, end: 1.0).animate(animation);
-          return FadeTransition(
-            opacity: animation,
-            child: FocusedMenuDetails(
-              itemExtent: widget.menuItemExtent,
-              menuBoxDecoration: widget.menuBoxDecoration,
-              child: widget.child,
-              childOffset: childOffset,
-              childSize: childSize,
-              menuItems: widget.menuItems,
-              blurSize: widget.blurSize,
-              menuWidth: widget.menuWidth,
-              blurBackgroundColor: widget.blurBackgroundColor,
-              animateMenu: widget.animateMenuItems ?? true,
-              bottomOffsetHeight: widget.bottomOffsetHeight ?? 0,
-              menuOffset: widget.menuOffset ?? 0,
-            ),
-          );
-        },
-        fullscreenDialog: true,
-        opaque: false,
-      ),
-    ).whenComplete(() => widget.onClosed?.call());
+    await Navigator.of(context, rootNavigator: true)
+        .push(
+          PageRouteBuilder(
+            transitionDuration: widget.duration ?? Duration(milliseconds: 100),
+            pageBuilder: (context, animation, secondaryAnimation) {
+              animation = Tween(begin: 0.0, end: 1.0).animate(animation);
+              return FadeTransition(
+                opacity: animation,
+                child: FocusedMenuDetails(
+                  itemExtent: widget.menuItemExtent,
+                  menuBoxDecoration: widget.menuBoxDecoration,
+                  child: widget.child,
+                  childOffset: childOffset,
+                  childSize: childSize,
+                  menuItems: widget.menuItems,
+                  blurSize: widget.blurSize,
+                  menuWidth: widget.menuWidth,
+                  blurBackgroundColor: widget.blurBackgroundColor,
+                  animateMenu: widget.animateMenuItems ?? true,
+                  bottomOffsetHeight: widget.bottomOffsetHeight ?? 0,
+                  menuOffset: widget.menuOffset ?? 0,
+                ),
+              );
+            },
+            fullscreenDialog: true,
+            opaque: false,
+          ),
+        )
+        .whenComplete(() => widget.onClosed?.call());
   }
 }
